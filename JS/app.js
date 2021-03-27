@@ -25,6 +25,16 @@ let player = {
   y: 1
 }
 
+let  monster = {
+  x: 1,
+  y: 7
+}
+
+let door = {
+  x: 10,
+  y: 0
+}
+
 let map = [
     ["w","w","w","w","w","w","w","w","w","w","^","w","w"],
     ["w","c","c","c","w","w","w","w","w","c","c","p","w"],
@@ -54,12 +64,13 @@ function findDoor(map) {
   }
 }
 
-let door = findDoor(map);
+//let door = findDoor(map);
 
 let gameData = {
   map: map,
   player: player,
   userActions: userActions,
+  //door: door,
   coinCnt: 0
 }
 
@@ -69,6 +80,12 @@ let pic = new Image();
 pic.src    = SPRITES_LOCATION;
 
 let cellSize = 50;
+
+let modal = document.getElementById('myModal');
+document.getElementById('finish-button').onclick = function (){
+   document.getElementById('myModal').style.display = 'none';
+   location.reload()
+}
 
 function drawWorld(){
   ctx.fillStyle = 'white';
@@ -96,7 +113,12 @@ function drawWorld(){
     ctx.font = "20px serif";
     ctx.fillText("Score: " + gameData.coinCnt, 10, 25);
   }
+  ctx.drawImage(pic, 250, 0, 50, 50, monster.x * cellSize, monster.y * cellSize, cellSize, cellSize);
   requestAnimationFrame(drawWorld);
+}
+
+function randomInteger(min, max){
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 function checkIfCanGo(x, y, vx, vy) {
@@ -134,17 +156,44 @@ function movePlayer (){
   if (map[player.y][player.x] == COIN){
     gameData.coinCnt++;
     if (gameData.coinCnt === COIN_AMOUNT){
-      map[door.x][door.y] = OPENED_DOOR;
+      map[door.y][door.x] = OPENED_DOOR;
     }
   }
-
   map[player.y][player.x] = PLAYER;
+  if (player.x === door.x && player.y === door.y){
+    clearInterval(interval)
+    modal.style.display = "block";
+  }
   userActions.key = '';
+}
+
+function moveMonsters(){
+  let direction = randomInteger(LEFT, DOWN);
+  if (direction === LEFT){
+      if (checkIfCanGo(monster.x, monster.y, -1, 0)){
+          monster.x = monster.x - 1;
+        }
+  }
+  else if (direction === UP){
+      if (checkIfCanGo(monster.x, monster.y, 0, -1)){
+        monster.y = monster.y - 1;
+      }
+  }
+  else if (direction === RIGHT){
+      if (checkIfCanGo(monster.x, monster.y, 1, 0)){
+        monster.x = monster.x + 1;
+      }
+  }
+  else if (direction === DOWN){
+      if (checkIfCanGo(monster.x, monster.y, 0, 1)){
+        monster.y = monster.y + 1;
+      }
+  }
 }
 
 function gameCycle(){
   movePlayer();
-  //moveMonsters()
+  moveMonsters()
 }
 
 pic.onload = function (){
