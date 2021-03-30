@@ -1,3 +1,9 @@
+body {
+	margin: 0;
+	overflow: hidden;
+	background: black;
+}
+
 .modal-frame {
 	display: none;
   	position: fixed;
@@ -20,4 +26,24 @@
   	margin: auto;
   	border: 3px solid #7B1FA2;
   	width: 30%;
+}
+
+#pause {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	background: red;
+	width: 100px;
+	height: 100px;
+	position: fixed;
+	top:0;
+	left: 0;
+}
+
+#pause-label-check {
+	display: none;
+}
+
+#pause-label-check:checked + #pause {
+	background: green;
 }
