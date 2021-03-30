@@ -5,15 +5,13 @@ const PATH        = 'pp',
       CLOSED_DOOR = "^",
       OPENED_DOOR = "x",
       MONSTER     = 'm',
-      FREQUENCY   = 10,
-      ESC         = 27,
       LEFT        = 37,
       UP          = 38,
       RIGHT       = 39,
       DOWN        = 40,
       LVL_AMOUNT  = 2,
-      COIN_AMOUNT = 5
-      UNINITIALIZATED = undefined
+      COIN_AMOUNT = 5,
+      UNINITIALIZATED = undefined,
       INTERVAL_TIME = 1000/10;
 
 const SPRITES_LOCATION = 'images/sprites.png';

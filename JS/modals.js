@@ -23,11 +23,11 @@ function Menu(app, titleText, closeButtonText) {
 
 	this.hide = function() {
 		this.element.style.display = "none";
-		app.data.interval = setInterval(app.gameCycle, 1000/FREQUENCY);
+		app.data.interval = setInterval(app.gameCycle, INTERVAL_TIME);
 	}
 
 	this.closeButton.onclick = (e) => {
-		this.hide()
+		this.hide();
 	}
 }
 
@@ -39,7 +39,7 @@ function nextLevelWindow (app, titleText, closeButtonText) {
 	}
 
 	this.closeButton.onclick = (e) => {
-		this.hide()
+		this.hide();
 	}
 
 }
@@ -48,10 +48,10 @@ function endGameWindow (app, titleText, closeButtonText) {
 	this.__proto__ = new Menu(app, titleText, closeButtonText)
 	this.hide = function() {
 		this.element.style.display = "none";
-		location.reload()
+		location.reload();
 	}
 
 	this.closeButton.onclick = (e) => {
-		this.hide()
+		this.hide();
 	}
 }
