@@ -1,4 +1,3 @@
-/* function BaseModal */
 function Menu(app, titleText, closeButtonText) {
 	this.element = document.createElement('div');
 	this.modal = document.createElement('div');
@@ -10,12 +9,12 @@ function Menu(app, titleText, closeButtonText) {
 
 	this.element.classList.add('modal-frame');
 	this.modal.classList.add('modal-content');
-	
+
 	this.modal.appendChild(this.title);
 	this.modal.appendChild(this.closeButton);
 	this.element.appendChild(this.modal);
 	document.body.appendChild(this.element);
-	
+
 	this.show = function() {
 		this.element.style.display = "flex";
 		clearInterval(app.data.interval);
@@ -27,6 +26,7 @@ function Menu(app, titleText, closeButtonText) {
 	}
 
 	this.closeButton.onclick = (e) => {
+		app.timer.resume();
 		this.hide();
 	}
 }
@@ -52,6 +52,7 @@ function endGameWindow (app, titleText, closeButtonText) {
 	}
 
 	this.closeButton.onclick = (e) => {
+		app.timer.restart();
 		this.hide();
 	}
 }

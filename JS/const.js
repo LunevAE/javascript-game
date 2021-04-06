@@ -16,3 +16,7 @@ const PATH        = 'pp',
 
 const SPRITES_LOCATION = 'images/sprites.png';
 const LEVEL_DESTINATION_PATH = './levels/level';
+
+const DEFEAT_LEVEL = 0;
+const WIN_LEVEL    = 1;
+const WIN_GAME     = 2;

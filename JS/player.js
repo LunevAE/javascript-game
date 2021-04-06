@@ -29,15 +29,15 @@ function Player(x, y) {
 	  		}
 	  	}
 	  	if (this.y === gameData.monster.y && this.x === gameData.monster.x){
-	  		app.defeat.show();
+			app.levelFinish(DEFEAT_LEVEL);
 	  	}
 	  	gameData.map[this.y][this.x] = PLAYER;
 	  	if (this.x === gameData.door.x && this.y === gameData.door.y){
 	  		if (gameData.lvl < LVL_AMOUNT){
-	  			app.nextLevel.show();
+				app.levelFinish(WIN_LEVEL);
 	  		}
 	  		else {
-	  			app.victory.show();
+				app.levelFinish(WIN_GAME);
 	  		}
 	  	}
 	  	gameData.key = 0;
