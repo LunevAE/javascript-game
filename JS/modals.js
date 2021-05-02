@@ -44,6 +44,20 @@ function nextLevelWindow (app, titleText, closeButtonText) {
 
 }
 
+
+function PauseMenu(app, titleText, closeButtonText) {
+	this.__proto__ = new Menu(app, titleText, closeButtonText)
+	this.hide = function() {
+		this.element.style.display = "none";
+		document.getElementById('pause').click();
+	}
+
+	this.closeButton.onclick = (e) => {
+		this.hide();
+	}
+
+}
+
 function endGameWindow (app, titleText, closeButtonText) {
 	this.__proto__ = new Menu(app, titleText, closeButtonText)
 	this.hide = function() {

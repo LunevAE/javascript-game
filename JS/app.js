@@ -13,6 +13,7 @@ let app = {
   	menu: UNINITIALIZATED,
   	isPause: false,
   	timer: new Timer(),
+    gameIsRunning: false,
     initApp: function () {
   		canvas.width = 100 * 13;
   		canvas.height = 100 * 9;
@@ -33,7 +34,11 @@ let app = {
 		      app.drawWorld();
 		  }
 		  document.addEventListener("keydown", (event) => {
-          app.data.updateActions(event.keyCode);
+          if(app.gameIsRunning && event.key === "Escape") {
+             document.getElementById('pause').click();
+          } else if (!app.timer.paused) {
+             app.data.updateActions(event.keyCode);
+          }
       })
     	document.getElementById("pause").addEventListener('click', function() {
     		app.pauseHandler();
@@ -41,6 +46,7 @@ let app = {
     	app.data.setInterval(setInterval(app.gameCycle, INTERVAL_TIME));
     	app.menu = new Menu(app, "Menu", "Play");
     	app.defeat = new endGameWindow(app, "Game over", "You lose");
+      app.pauseMenu = new PauseMenu(app, "Pause", "Resume");
     	app.victory = new endGameWindow(app, "Congratulations", "You won!!!");
     	app.nextLevel = new nextLevelWindow(app, "Level completed!", "Next level");
     	app.menu.show();
@@ -48,8 +54,10 @@ let app = {
     pauseHandler: function(){
   		if (app.isPause) {
   			app.removePause();
+        app.pauseMenu.hide();
   		} else {
   			app.gamePause();
+        app.pauseMenu.show();
   		}
   		app.isPause = !app.isPause;
     },
@@ -72,7 +80,7 @@ let app = {
     	let monster = app.data.monster;
     	let cellSize = app.data.cellSize;
     	ctx.fillStyle = 'white';
-		ctx.fillRect(0, 0, canvas.width, canvas.height);
+		ctx.fillRect(0, 0, canvas.width, canvas.height); //очистка
 		let cellSizeX = 100;
 		let cellSizeY = 100;
 
@@ -121,7 +129,7 @@ let app = {
 		  let dy = (outerCanvas.height - newHeight) / 2;
 
 		  app.outerCtx.clearRect(0, 0, outerCanvas.width,  outerCanvas.height);
-	    app.outerCtx.drawImage(canvas, 0, 0, canvas.width, canvas.height, dx, dy, newWidth, newHeight);
+	      app.outerCtx.drawImage(canvas, 0, 0, canvas.width, canvas.height, dx, dy, newWidth, newHeight);
 
 		  requestAnimationFrame(app.drawWorld);
     },
@@ -132,6 +140,7 @@ let app = {
 		app.data.monster.move(app.data);
 	},
 	gameCycle: function(){
+    app.gameIsRunning = true;
 	  app.movePlayer();
 	  app.moveMonsters();
 	},
@@ -145,6 +154,7 @@ let app = {
 	},
 	levelFinish: function(status) {
     app.gamePause();
+    app.gameIsRunning = false;
     switch (status) {
       case WIN_LEVEL:
         app.nextLevel.show()
