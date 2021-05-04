@@ -13,16 +13,16 @@ function Monster(x, y) {
 		}
 		else {
 			this.randMove(gameData);
-		}		
-	
+		}
+
 	}
 	this.leeAlgo = function (gameData){
 		let mm = gameData.map.map(function (item) {
 			return [...item]
 		})
 
-		let dx = [1, 0, -1, 0]; 
-  		let dy = [0, 1, 0, -1];  
+		let dx = [1, 0, -1, 0];
+  		let dy = [0, 1, 0, -1];
   		let stop;
   		let x, y, k;
   		let px = [];
@@ -31,7 +31,7 @@ function Monster(x, y) {
 		mm[this.y][this.x] = 0;
 
 		do {
-			stop = true;   
+			stop = true;
 			for (y = 0; y < mm.length; ++y){
 				for (x = 0; x < mm[y].length; ++x){
 					if (mm[y][x] == d){
@@ -39,12 +39,12 @@ function Monster(x, y) {
              				let iy = y + dy[k];
              				let ix = x + dx[k];
              				if (iy >= 0 && ix >= 0  && (mm[iy][ix] == PATH || mm[iy][ix] == PLAYER || mm[iy][ix] == COIN)){
-                				stop = false;            
-                				mm[iy][ix] = d + 1;      
+                				stop = false;
+                				mm[iy][ix] = d + 1;
              				}
           				}
 					}
-				}	
+				}
 			}
 			++d;
 		} while (!stop && mm[gameData.player.y][gameData.player.x] == PLAYER);
@@ -54,20 +54,20 @@ function Monster(x, y) {
 		d = mm[gameData.player.y][gameData.player.x];
 		while ( d > 0 ){
 			px[d] = x;
-		    py[d] = y;                   
+		    py[d] = y;
 		    d--;
 		    for (k = 0; k < 4; ++k){
 		       let iy = y + dy[k];
 		       let ix = x + dx[k];
 		       if ( iy >= 0 && ix >= 0 && mm[iy][ix] == d){
 		          x = x + dx[k];
-		          y = y + dy[k];          
+		          y = y + dy[k];
 		          break;
 		      	}
 		    }
 		}
 		px[0] = this.x;
-		py[0] = this.y; 
+		py[0] = this.y;
 
 		let monsterPath = [px,py];
 		return monsterPath;

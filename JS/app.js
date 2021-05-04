@@ -2,6 +2,15 @@ function randomInteger(min, max){
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+function maxLen(map) {
+  let max = 0;
+  for (line of map) {
+    if (line.length > max) {
+      max = line.length;
+    }
+  }
+  return max;
+}
 
 let app = {
     data: UNINITIALIZATED,
@@ -14,9 +23,8 @@ let app = {
   	isPause: false,
   	timer: new Timer(),
     gameIsRunning: false,
+    maxLen: 0,
     initApp: function () {
-  		canvas.width = 100 * 13;
-  		canvas.height = 100 * 9;
   		outerCanvas.width = window.innerWidth;
   		outerCanvas.height = window.innerHeight;
 
@@ -34,7 +42,7 @@ let app = {
 		      app.drawWorld();
 		  }
 		  document.addEventListener("keydown", (event) => {
-          if(app.gameIsRunning && event.key === "Escape") {
+          if (app.gameIsRunning && event.key === "Escape") {
              document.getElementById('pause').click();
           } else if (!app.timer.paused) {
              app.data.updateActions(event.keyCode);
@@ -65,7 +73,9 @@ let app = {
 	    let xhr = new XMLHttpRequest();
 	    xhr.open('GET', LEVEL_DESTINATION_PATH + level + '.json', false);
 	    xhr.send();
-	    return JSON.parse(xhr.responseText);
+	    let res = JSON.parse(xhr.responseText);
+      app.maxLen = maxLen(res.map);
+      return res;
 	},
     updateLevel: function (level) {
     	let loadedData = app.load(level);
@@ -80,9 +90,11 @@ let app = {
     	let monster = app.data.monster;
     	let cellSize = app.data.cellSize;
     	ctx.fillStyle = 'white';
-		ctx.fillRect(0, 0, canvas.width, canvas.height); //очистка
-		let cellSizeX = 100;
-		let cellSizeY = 100;
+      canvas.width = 100 * app.maxLen;
+  		canvas.height = 100 * map.length;
+		  ctx.fillRect(0, 0, canvas.width, canvas.height); 
+		  let cellSizeX = 100;
+		  let cellSizeY = 100;
 
 		for (let y = 0; y < map.length; ++y){
 			for (let x = 0; x < map[y].length; ++x){
@@ -102,6 +114,10 @@ let app = {
 					case OPENED_DOOR:
 						ctx.drawImage(pic, 400, 0, 100, 100, x * cellSizeX, y * cellSizeY, cellSizeX, cellSizeY);
 						break;
+          default:
+            ctx.fillStyle = 'white';
+            ctx.fillRect(x * cellSizeX, y * cellSizeY, cellSizeX, cellSizeY);
+            break;
 			  }
      }
 
@@ -133,7 +149,7 @@ let app = {
 
 		  requestAnimationFrame(app.drawWorld);
     },
-    movePlayer: function () {
+  movePlayer: function () {
     	app.data.player.move(app.data);
 	},
 	moveMonsters: function(){

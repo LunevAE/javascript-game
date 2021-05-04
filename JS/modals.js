@@ -58,6 +58,7 @@ function PauseMenu(app, titleText, closeButtonText) {
 
 }
 
+
 function endGameWindow (app, titleText, closeButtonText) {
 	this.__proto__ = new Menu(app, titleText, closeButtonText)
 	this.hide = function() {
