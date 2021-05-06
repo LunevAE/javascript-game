@@ -10,7 +10,7 @@ const PATH        = 'pp',
       RIGHT       = 39,
       DOWN        = 40,
       LVL_AMOUNT  = 3,
-      COIN_AMOUNT = 5,
+      COIN_AMOUNT = 23,
       UNINITIALIZATED = undefined,
       INTERVAL_TIME = 1000/10;
 

@@ -42,7 +42,7 @@ let app = {
 		      app.drawWorld();
 		  }
 		  document.addEventListener("keydown", (event) => {
-          if (app.gameIsRunning && event.key === "Escape") {
+          if(app.gameIsRunning && event.key === "Escape") {
              document.getElementById('pause').click();
           } else if (!app.timer.paused) {
              app.data.updateActions(event.keyCode);
@@ -149,7 +149,7 @@ let app = {
 
 		  requestAnimationFrame(app.drawWorld);
     },
-  movePlayer: function () {
+    movePlayer: function () {
     	app.data.player.move(app.data);
 	},
 	moveMonsters: function(){
@@ -158,8 +158,13 @@ let app = {
 	gameCycle: function(){
     app.gameIsRunning = true;
 	  app.movePlayer();
-	  app.moveMonsters();
+    if (app.skip >= 3) {
+      app.moveMonsters();
+      app.skip = 0;
+    }
+	  ++app.skip
 	},
+  skip: 0,
 	gamePause: function() {
     app.timer.pause();
 		clearInterval(app.data.interval);

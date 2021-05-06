@@ -2,7 +2,7 @@ function Monster(x, y) {
 	this.__proto__ = new Entity(x, y)
 	this.move = function (gameData){
 		let p = randomInteger(1, 100);
-		if (p < 40){
+		if (p < 80){
 			let monsterPath = this.leeAlgo(gameData);
 			let px = monsterPath[0];
 			let py = monsterPath[1];
