@@ -32,7 +32,6 @@ body {
 	display: flex;
 	flex-direction: row;
 	justify-content: center;
-	background: red;
 	width: 100px;
 	height: 100px;
 	position: fixed;
@@ -44,6 +43,37 @@ body {
 	display: none;
 }
 
-#pause-label-check:checked + #pause {
-	background: green;
+.continue {
+	display: none;
+	top: 0;
+	left: 0;
+	width: 100px;
+	height: 100px;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+}
+
+#pause-label-check:checked + #pause .continue {
+	display: flex;
+	width: 100px;
+}
+
+.pause-g {
+	display: flex;
+	top: 0;
+	left: 0;
+	width: 100px;
+	height: 100px;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+}
+
+.pause-g img, .continue img {
+	width: 100%;
+}
+#pause-label-check:checked + #pause .pause-g {
+	display: none;
+	width: 100px;
 }
